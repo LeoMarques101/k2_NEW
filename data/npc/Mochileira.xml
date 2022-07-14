@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc name="Mochileira" script="default.lua" walkinterval="1500" speed="100" walkradius="2" floorchange="0">
+	<health max="100" now="100"/>
+	<look type="136" head="95" body="121" legs="115" feet="114" addons="1" mount="0"/>
+	<parameters>
+		<!--MESSAGES-->
+		<parameter key="message_greet" value="Greetings, |PLAYERNAME|."/>
+		<parameter key="message_farewell" value="Good bye, |PLAYERNAME|."/>
+		<parameter key="message_buy" value="Do you want to buy |ITEMCOUNT| |ITEMNAME| for |TOTALCOST| gold coins?"/>
+		<parameter key="message_onbuy" value="Here you are."/>
+		<parameter key="message_bought" value="Bought |ITEMCOUNT|x |ITEMNAME| for |TOTALCOST| gold."/>
+		<parameter key="message_sell" value="Do you want to sell |ITEMCOUNT| |ITEMNAME| for |TOTALCOST| gold coins?"/>
+		<parameter key="message_onsell" value="Here you are, |TOTALCOST| gold."/>
+		<parameter key="message_sold" value="Sold |ITEMCOUNT|x |ITEMNAME| for |TOTALCOST| gold."/>
+		<parameter key="message_missingmoney" value="You don't have enough money."/>
+		<parameter key="message_needmoney" value="You don't have enough money."/>
+		<parameter key="message_missingitem" value="You don't have so many."/>
+		<parameter key="message_needitem" value="You do not have this object."/>
+		<parameter key="message_needspace" value="You do not have enough capacity."/>
+		<parameter key="message_needmorespace" value="You do not have enough capacity for all items."/>
+		<parameter key="message_idletimeout" value="Good bye."/>
+		<parameter key="message_decline" value="Then not."/>
+		<parameter key="message_sendtrade" value="Of course, just browse through my wares."/>
+		<parameter key="message_noshop" value="Sorry, I'm not offering anything."/>
+		<parameter key="message_oncloseshop" value="Thank you, come back whenever you're in need of something else."/>
+		<parameter key="message_alreadyfocused" value="|PLAYERNAME|, I am already talking to you."/>
+		<parameter key="message_walkaway_male" value="Good bye."/>
+		<parameter key="message_walkaway_female" value="Good bye."/>
+		<!--SHOP-->
+		<parameter key="module_shop" value="1"/>
+		<parameter key="shop_buyable" value="backpack,1988,100;bag,1987,100;greenbackpack,1998,100;greenbag,1991,100;yellowbackpack,1999,100;yellowbag,1992,100;redbackpack,2000,100;redbag,1993,100;purplebackpack,2001,100;purplebag,1994,100;bluebackpack,2002,100;bluebag,1995,100;greybackpack,2003,100;greybag,1996,100;goldenbackpack,2004,100;goldenbag,1997,100;orangebackpack,10519,100;orangebag,10520,100"/>
+	</parameters>
+</npc>

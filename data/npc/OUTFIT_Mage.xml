@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<npc name="Mage" script="OUTIFIT_SCRIPT.lua" walkinterval="0" floorchange="0" speed="1000">
+  	<health now="150" max="150"/>
+  	<look type="141"/>
+</npc>

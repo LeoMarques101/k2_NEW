@@ -1,5 +1,64 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <items>
+
+
+<!-- traning -->
+
+	<item id="26386" article="a" name="Treino de Distance">
+		<attribute key="description" value="Use em um boneco de treino, para treinar DISTANCE" />
+		<attribute key="weight" value="1200" />
+		<attribute key="charges" value="2000" />
+		<attribute key="slotType" value="ammo" />
+		<attribute key="showcharges" value="1" />
+		<attribute key="weaponType" value="distance" />
+		<attribute key="shootType" value="royalspear" />
+		<attribute key="range" value="5" />
+	</item>
+
+	<item id="26385" article="a" name="Treino de Magia">
+		<attribute key="description" value="Use em um boneco de treino, para treinar ML" />
+		<attribute key="weight" value="1200" />
+		<attribute key="charges" value="2000" />
+		<attribute key="slotType" value="ammo" />
+		<attribute key="showcharges" value="1" />
+		<attribute key="weaponType" value="wand" />
+		<attribute key="shootType" value="death" />
+		<attribute key="range" value="3" />
+	</item>
+
+	<item id="26384" article="a" name="Treino de Club">
+		<attribute key="description" value="Use em um boneco de treino, para treinar CLUB" />
+		<attribute key="weight" value="1200" />
+		<attribute key="charges" value="2000" />
+		<attribute key="slotType" value="ammo" />
+		<attribute key="showcharges" value="1" />
+		<attribute key="weaponType" value="club" />
+	</item>
+	
+	<item id="26383" article="a" name="Treino de Sword">
+		<attribute key="description" value="Use em um boneco de treino, para treinar SWORD" />
+		<attribute key="weight" value="1200" />
+		<attribute key="charges" value="2000" />
+		<attribute key="slotType" value="ammo" />
+		<attribute key="showcharges" value="1" />
+		<attribute key="weaponType" value="sword" />
+	</item>
+	
+	<item id="26382" article="a" name="Treino de Axe">
+		<attribute key="description" value="Use em um boneco de treino, para treinar AXE" />
+		<attribute key="weight" value="1200" />
+		<attribute key="charges" value="2000" />
+		<attribute key="slotType" value="ammo" />
+		<attribute key="showcharges" value="1" />
+		<attribute key="weaponType" value="axe" />
+	</item>
+	
+
+	
+
+
+
+
 	<item id="1" name="water" />
 	<item id="2" name="blood" />
 	<item id="3" name="beer" />
@@ -15003,7 +15062,9 @@
 	<item fromid="8021" toid="8028" name="rifty earth" />
 	<item fromid="8030" toid="8032" name="rifty earth" />
 	<item fromid="8033" toid="8045" name="sand" />
-	<item fromid="8046" toid="8047" name="something sparkling" />
+	<item fromid="8046" toid="8047" name="something sparkling">
+		<attribute key="type" value="trashholder" />
+	</item>
 	<item fromid="8048" toid="8057" name="earth" />
 	<item id="8058" article="a" name="mystic flame">
 		<attribute key="description" value="You feel drawn to the mesmerizing light." />
@@ -15632,7 +15693,8 @@
 	<item id="8711" article="a" name="shovel">
 		<attribute key="weight" value="3500" />
 	</item>
-	<item id="8712" article="a" name="rope">
+	<item id="8712" article="a" name="Autoloot rope">
+		<attribute key="description" value="Use em outro item para adicionar ou remover da sua lista de Autoloot. Para ver a sua lista digite: !autoloot" />
 		<attribute key="weight" value="1800" />
 	</item>
 	<item id="8713" article="a" name="fish">

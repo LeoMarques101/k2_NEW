@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <monsters>
+
+	<!-- K2 -->
+	<monster name="Lucy" file="K2/Lucy.xml"/>
+	<monster name="Gordinha" file="K2/Gordinha.xml"/>
+	<monster name="K2 Assassin" file="K2/K2assassin.xml"/>
+	<monster name="Target" file="K2/target.xml"/>
+	<monster name="Target Dummy" file="K2/target_dummy.xml"/>
+	<monster name="Ghastly Dragon" file="K2/ghastly_dragon.xml"/>
+	<!-- K2 -->
+
 	<monster name="a carved stone tile" file="monsters/a_carved_stone_tile.xml" />
 	<monster name="Abyssador" file="monsters/abyssador.xml" />
 	<monster name="Achad" file="monsters/achad.xml" />
