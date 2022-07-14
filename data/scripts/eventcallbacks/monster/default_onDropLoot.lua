@@ -17,12 +17,39 @@ ec.onDropLoot = function(self, corpse)
 		end
 
 		if player then
+			--[K2_AUTOLOOT]
+			local items = corpse:getItems()
+			local autolootContainer = Game.createItem(1987, 1)
+
+			for _, item in ipairs(items) do
+				if (player:getAutoLootItem(item.itemid)) then
+					item:moveTo(autolootContainer)
+				end
+			end
+			--[K2_AUTOLOOT]
 			local text = ("Loot of %s: %s"):format(mType:getNameDescription(), corpse:getContentDescription())
+			--[K2_AUTOLOOT]
+			if (autolootContainer:getSize() > 0) then
+				text = text .. '. [Autoloot]: ' .. autolootContainer:getContentDescription()
+				local autolootItems = autolootContainer:getItems()
+
+				for _, item in ipairs(autolootItems) do
+
+					player:addItem(item:getId(),item:getCount())
+					item:remove(item:getCount())
+
+					--item:moveTo(player)
+				end
+				autolootContainer:remove(1)
+			end
+			text = text .. '.'
+			--[K2_AUTOLOOT]
+
 			local party = player:getParty()
 			if party then
 				party:broadcastPartyLoot(text)
 			else
-				player:sendTextMessage(MESSAGE_LOOT, text)
+				player:sendTextMessage(MESSAGE_INFO_DESCR, text)
 			end
 		end
 	else
@@ -31,7 +58,7 @@ ec.onDropLoot = function(self, corpse)
 		if party then
 			party:broadcastPartyLoot(text)
 		else
-			player:sendTextMessage(MESSAGE_LOOT, text)
+			player:sendTextMessage(MESSAGE_INFO_DESCR, text)
 		end
 	end
 end

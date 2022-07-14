@@ -2507,6 +2507,13 @@ void LuaScriptInterface::registerFunctions()
 	registerMethod("Player", "hasSecureMode", LuaScriptInterface::luaPlayerHasSecureMode);
 	registerMethod("Player", "getFightMode", LuaScriptInterface::luaPlayerGetFightMode);
 
+	//[K2_AUTOLOOT]
+	registerMethod("Player", "addAutoLootItem", LuaScriptInterface::luaPlayerAddAutoLootItem);
+	registerMethod("Player", "removeAutoLootItem", LuaScriptInterface::luaPlayerRemoveAutoLootItem);
+	registerMethod("Player", "getAutoLootItem", LuaScriptInterface::luaPlayerGetAutoLootItem);
+	registerMethod("Player", "getAutoLootList", LuaScriptInterface::luaPlayerGetAutoLootList);
+	//[K2_AUTOLOOT]
+
 	registerMethod("Player", "getStoreInbox", LuaScriptInterface::luaPlayerGetStoreInbox);
 
 	// Monster
@@ -10275,6 +10282,92 @@ int LuaScriptInterface::luaPlayerGetStoreInbox(lua_State* L)
 	return 1;
 }
 
+//[K2_AUTOLOOT]
+int LuaScriptInterface::luaPlayerAddAutoLootItem(lua_State* L)
+{
+	// player:addAutoLootItem(itemId)
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	uint16_t itemId = getNumber<uint16_t>(L, 2);
+	if (player->getAutoLootItem(itemId)) {
+		pushBoolean(L, false);
+	} else {
+		player->addAutoLootItem(itemId);
+		pushBoolean(L, true);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerRemoveAutoLootItem(lua_State* L)
+{
+	// player:removeAutoLootItem(itemId)
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	uint16_t itemId = getNumber<uint16_t>(L, 2);
+	if (player->getAutoLootItem(itemId)) {
+		player->removeAutoLootItem(itemId);
+		pushBoolean(L, true);
+	} else {
+		pushBoolean(L, false);
+	}
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerGetAutoLootItem(lua_State* L)
+{
+	// player:getAutoLootItem(itemId)
+	Player* player = getUserdata<Player>(L, 1);
+	if (!player) {
+		lua_pushnil(L);
+		return 1;
+	}
+
+	uint16_t itemId = getNumber<uint16_t>(L, 2);
+	if (player->getAutoLootItem(itemId)) {
+		pushBoolean(L, true);
+	} else {
+		pushBoolean(L, false);
+	}
+
+	return 1;
+}
+
+int LuaScriptInterface::luaPlayerGetAutoLootList(lua_State* L)
+{
+	// player:getAutoLootList()
+	Player* player = getUserdata<Player>(L, 1);
+
+	if (player) {
+		std::set<uint32_t> value = player->autoLootList;
+
+		if (value.size() == 0) {
+			lua_pushnil(L);
+			return 1;
+		}
+
+		int index = 0;
+		lua_createtable(L, value.size(), 0);
+
+		for (auto i : value) {
+			lua_pushnumber(L, i);
+			lua_rawseti(L, -2, ++index);
+		}
+	} else {
+		lua_pushnil(L);
+	}
+
+	return 1;
+}
+//[K2_AUTOLOOT]
+
 // Monster
 int LuaScriptInterface::luaMonsterCreate(lua_State* L)
 {
@@ -11699,25 +11792,37 @@ int LuaScriptInterface::luaHouseSave(lua_State* L)
 	return 1;
 }
 
+//[K2_AUTOLOOT] para ser possivel utilizar o id dos itens no client
 // ItemType
 int LuaScriptInterface::luaItemTypeCreate(lua_State* L)
 {
-	// ItemType(id or name)
+// ItemType(id or name, clientID)
+	uint16_t clientID = getNumber<uint16_t>(L, 3);
 	uint32_t id;
-	if (isNumber(L, 2)) {
-		id = getNumber<uint32_t>(L, 2);
-	} else if (isString(L, 2)) {
-		id = Item::items.getItemIdByName(getString(L, 2));
+	if (clientID) {
+		//std::cout << "[Hello, World!]";
+		const ItemType& itemType = Item::items.getItemIdByClientId(clientID);
+		pushUserdata<const ItemType>(L, &itemType);
+		setMetatable(L, -1, "ItemType");
+		return 1;
+
 	} else {
-		lua_pushnil(L);
+		if (isNumber(L, 2)) {
+			id = getNumber<uint32_t>(L, 2);
+		} else if (isString(L, 2)) {
+			id = Item::items.getItemIdByName(getString(L, 2));
+		} else {
+			lua_pushnil(L);
+			return 1;
+		}
+		//std::cout << "[nao era pra rodar]";
+		const ItemType& itemType = Item::items[id];
+		pushUserdata<const ItemType>(L, &itemType);
+		setMetatable(L, -1, "ItemType");
 		return 1;
 	}
-
-	const ItemType& itemType = Item::items[id];
-	pushUserdata<const ItemType>(L, &itemType);
-	setMetatable(L, -1, "ItemType");
-	return 1;
 }
+//[K2_AUTOLOOT]
 
 int LuaScriptInterface::luaItemTypeIsCorpse(lua_State* L)
 {

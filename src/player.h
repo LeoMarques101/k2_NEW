@@ -1145,6 +1145,12 @@ class Player final : public Creature, public Cylinder
 		void forgetInstantSpell(const std::string& spellName);
 		bool hasLearnedInstantSpell(const std::string& spellName) const;
 
+		//[K2_AUTOLOOT]
+		void addAutoLootItem(uint16_t itemId);
+		void removeAutoLootItem(uint16_t itemId);
+		bool getAutoLootItem(uint16_t itemId);
+		//[K2_AUTOLOOT]
+
 		void updateRegeneration();
 
 	private:
@@ -1193,6 +1199,10 @@ class Player final : public Creature, public Cylinder
 
 		void internalAddThing(Thing* thing) override;
 		void internalAddThing(uint32_t index, Thing* thing) override;
+
+		//[K2_AUTOLOOT]
+		std::set<uint32_t> autoLootList;
+		//[K2_AUTOLOOT]
 
 		std::unordered_set<uint32_t> attackedSet;
 		std::unordered_set<uint32_t> VIPList;

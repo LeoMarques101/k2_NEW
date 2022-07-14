@@ -538,6 +538,23 @@ bool IOLoginData::loadPlayer(Player* player, DBResult_ptr result)
 		} while (result->next());
 	}
 
+	//[K2_AUTOLOOT] load autoloot
+	if ((result = db.storeQuery(fmt::format("SELECT `list` FROM `player_autoloot` WHERE `player_id` = {:d}", player->getGUID())))) {
+		unsigned long lootlistSize;
+		const char* autolootlist = result->getStream("list", lootlistSize);
+		PropStream propStreamList;
+		propStreamList.init(autolootlist, lootlistSize);
+
+		int16_t value;
+		int16_t item = propStreamList.read<int16_t>(value);
+
+		while (item) {
+			player->addAutoLootItem(value);
+			item = propStreamList.read<int16_t>(value);
+		}
+	}
+	//[K2_AUTOLOOT]
+
 	//load vip list
 	if ((result = db.storeQuery(fmt::format("SELECT `player_id` FROM `account_viplist` WHERE `account_id` = {:d}", player->getAccount())))) {
 		do {
@@ -833,6 +850,36 @@ bool IOLoginData::savePlayer(Player* player)
 	if (!storageQuery.execute()) {
 		return false;
 	}
+
+	//[K2_AUTOLOOT] save autolootlist
+	if (!db.executeQuery(fmt::format("DELETE FROM `player_autoloot` WHERE `player_id` = {:d}", player->getGUID()))) {
+		return false;
+	}
+
+	if (player->autoLootList.size()) {
+		PropWriteStream propWriteStreamAutoLoot;
+
+		for (auto i : player->autoLootList) {
+			propWriteStreamAutoLoot.write<uint16_t>(i);
+		}
+
+		DBInsert autolootQuery("INSERT INTO `player_autoloot` (`player_id`, `list`) VALUES ");
+
+		size_t lootlistSize;
+		const char* autolootlist = propWriteStreamAutoLoot.getStream(lootlistSize);
+
+		query.str(std::string());
+		query << player->getGUID() << ',' << db.escapeBlob(autolootlist, lootlistSize);
+
+		if (!autolootQuery.addRow(query)) {
+			return false;
+		}
+
+		if (!autolootQuery.execute()) {
+			return false;
+		}
+	}
+	//[K2_AUTOLOOT]
 
 	//End the transaction
 	return transaction.commit();

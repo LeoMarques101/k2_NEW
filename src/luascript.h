@@ -1036,6 +1036,13 @@ class LuaScriptInterface
 
 		static int luaPlayerGetStoreInbox(lua_State* L);
 
+		//[K2_AUTOLOOT]
+		static int luaPlayerAddAutoLootItem(lua_State* L);
+		static int luaPlayerRemoveAutoLootItem(lua_State* L);
+		static int luaPlayerGetAutoLootItem(lua_State* L);
+		static int luaPlayerGetAutoLootList(lua_State* L);
+		//[K2_AUTOLOOT]
+
 		// Monster
 		static int luaMonsterCreate(lua_State* L);
 
